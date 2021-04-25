@@ -8,5 +8,6 @@ const timeDifference = Date.now() - revivalStart.getTime()
 const daysDifference = timeDifference / (1000 * 3600 * 24)
 
 console.log('r', revivalStart)
+console.log('d', daysDifference)
   
 days.innerHTML = Math.floor(daysDifference)
