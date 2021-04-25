@@ -9,4 +9,4 @@ const daysDifference = timeDifference / (1000 * 3600 * 24)
 
 console.log('r', revivalStart)
   
-days.innerHTML = Math.ceil(daysDifference)
+days.innerHTML = Math.floor(daysDifference)
