@@ -72,16 +72,16 @@
   // const revivalStart = new Date('Febuary 3, 2021 18:30:00')
   const revivalStart = new Date('Febuary 3, 2021')
 
-  const timeDifference = Date.now() - revivalStart.getTime()
+  // const timeDifference = Date.now() - revivalStart.getTime()
   
   const daysOfRevival = getDays(revivalStart, new Date())
   
   // Calculate the no. of days between two dates
-  const daysDifference = timeDifference / (1000 * 3600 * 24)
+  // const daysDifference = timeDifference / (1000 * 3600 * 24)
 
-  console.log('r', revivalStart)
-  console.log('d', daysDifference)
-  // console.log('d', daysOfRevival)
+  // console.log('r', revivalStart)
+  // console.log('d', daysDifference)
+  console.log('d', daysOfRevival.length)
   
   
   
@@ -123,7 +123,7 @@
     
   }
   
-  days.innerHTML = Math.ceil(daysDifference)
+  days.innerHTML = daysOfRevival.length
 
 
 </script>
