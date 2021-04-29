@@ -9,14 +9,22 @@
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<main class="flex flex-col justify-center items-center h-screen w-screen">
-  <table id="calendar"></table>
-  <div>Day of Revival</div>
-  <div 
-       id="days"
-       class="font-bold"
-       style="font-size: 12rem;"
-  ></div>
+<main class="flex flex-col-reverse justify-center items-center h-screen w-screen overflow-auto">
+  <div class="flex flex-col justify-center items-center py-32 mb-64">
+    <div>Day of Revival</div>
+    <div 
+        id="days"
+        class="font-bold pb-64"
+        style="font-size: 12rem;"
+    ></div>
+    <div 
+        class="spacer pb-64"
+    ></div>
+  </div>
+  <table 
+    id="calendar"
+    class=""
+  ></table>
 </main>
 
 <script>
@@ -34,12 +42,26 @@
     for (let i=0; i<7; i++) {
       const cell = row.insertCell(i)
       
-      cell.innerHTML = i
+      cell.innerHTML = ''
       
-      console.log(cell)
+      // console.log(cell)
     }
     
     return row
+  }
+
+  function addMonthHeading( day ) {
+    const headingRow = calendar.insertRow()
+
+      const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format( day )
+
+      headingRow.innerHTML = /* html */`
+        <td colspan="7">
+          <h2 class="font-bold text-lg p-2 mt-12">${ monthName }</h2>
+        </td>
+      `
+    
+    return headingRow
   }
   
 
@@ -62,31 +84,44 @@
   
   
   
-  
+  addMonthHeading( revivalStart )
+
   let week = addWeek()
   
   console.log('cell', week, week.cells.length)
   
-  for ( const day of daysOfRevival ) {
+  for ( const [ i, day ] of daysOfRevival.entries() ) {
     
     const weekDayIndex = day.getDay()
+    const dayOfMonth = day.getDate()
+
+    // If this is the first day of the month
+    // then add a heading row
+    if ( dayOfMonth === 1 ) {
+      addMonthHeading( day )
+    }
     
-    if ( weekDayIndex === 0 ) {
+    // If this day is a new week
+    // then add a new week row
+    if ( weekDayIndex === 0 || dayOfMonth === 1 ) {
       week = addWeek()
     }
     
-    const dayCell = week.item( weekDayIndex )
-    
-    
+    const dayCell = week.cells[ weekDayIndex ]
     
     
     // const cell = row.insertCell()
     
-    dayCell.innerHTML = day.getDate()
+    dayCell.innerHTML = /* html */`
+      <div class="relative border flex justify-center">
+        <div class="font-medium p-3">${ i+1 }</div>
+        <div class="absolute top-0 right-0 text-xs opacity-25">${ day.getDate() }</div>
+      </div>
+    `
     
   }
   
-  days.innerHTML = Math.floor(daysDifference)
+  days.innerHTML = Math.ceil(daysDifference)
 
 
 </script>
