@@ -10,6 +10,7 @@
 <body>
 <!-- partial:index.partial.html -->
 <main class="flex flex-col justify-center items-center h-screen w-screen">
+  <table id="calendar"></table>
   <div>Day of Revival</div>
   <div 
        id="days"
@@ -17,8 +18,78 @@
        style="font-size: 12rem;"
   ></div>
 </main>
-<!-- partial -->
-  <script  src="./script.js"></script>
+
+<script>
+  
+  function getDays(start, end) {
+    for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
+        arr.push(new Date(dt))
+    }
+    return arr
+  }
+  
+  function addWeek() {
+    const row = calendar.insertRow()
+    
+    for (let i=0; i<7; i++) {
+      const cell = row.insertCell(i)
+      
+      cell.innerHTML = i
+      
+      console.log(cell)
+    }
+    
+    return row
+  }
+  
+
+  const days = document.querySelector('#days')
+  const calendar = document.querySelector('#calendar')
+
+  const revivalStart = new Date('Febuary 2, 2021 07:00:00')
+
+  const timeDifference = Date.now() - revivalStart.getTime()
+  
+  const daysOfRevival = getDays(revivalStart, new Date())
+  
+  // Calculate the no. of days between two dates
+  const daysDifference = timeDifference / (1000 * 3600 * 24)
+
+  console.log('r', revivalStart)
+  console.log('d', daysDifference)
+  // console.log('d', daysOfRevival)
+  
+  
+  
+  
+  
+  let week = addWeek()
+  
+  console.log('cell', week, week.cells.length)
+  
+  for ( const day of daysOfRevival ) {
+    
+    const weekDayIndex = day.getDay()
+    
+    if ( weekDayIndex === 0 ) {
+      week = addWeek()
+    }
+    
+    const dayCell = week.item( weekDayIndex )
+    
+    
+    
+    
+    // const cell = row.insertCell()
+    
+    dayCell.innerHTML = day.getDate()
+    
+  }
+  
+  days.innerHTML = Math.floor(daysDifference)
+
+
+</script>
 
 </body>
 </html>
