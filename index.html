@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Day of Revival</title>
+  <title>Days in Tulsa</title>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/tailwind.min.css'>
 
 </head>
@@ -11,7 +11,7 @@
 <!-- partial:index.partial.html -->
 <main class="fixed inset-0 flex flex-col-reverse justify-center items-center h-full w-full overflow-auto">
   <div class="flex flex-col justify-center items-center py-32 mb-64">
-    <div>Day of Revival</div>
+    <div>Days in Tulsa</div>
     <div 
         id="days"
         class="font-bold pb-32"
@@ -69,30 +69,30 @@
   const calendar = document.querySelector('#calendar')
 
   // Feb 3 https://www.instagram.com/p/CK4Obo3jr9V/
-  // const revivalStart = new Date('Febuary 3, 2021 18:30:00')
-  const revivalStart = new Date('Febuary 3, 2021')
+  // const daysStart = new Date('Febuary 3, 2021 18:30:00')
+  const daysStart = new Date('April 4, 2021')
 
-  // const timeDifference = Date.now() - revivalStart.getTime()
+  // const timeDifference = Date.now() - daysStart.getTime()
   
-  const daysOfRevival = getDays(revivalStart, new Date())
+  const daysInTulsa = getDays(daysStart, new Date())
   
   // Calculate the no. of days between two dates
   // const daysDifference = timeDifference / (1000 * 3600 * 24)
 
-  // console.log('r', revivalStart)
+  // console.log('r', daysStart)
   // console.log('d', daysDifference)
-  console.log('d', daysOfRevival.length)
+  console.log('d', daysInTulsa.length)
   
   
   
   
-  addMonthHeading( revivalStart )
+  addMonthHeading( daysStart )
 
   let week = addWeek()
   
   // console.log('cell', week, week.cells.length)
   
-  for ( const [ i, day ] of daysOfRevival.entries() ) {
+  for ( const [ i, day ] of daysInTulsa.entries() ) {
     
     const weekDayIndex = day.getDay()
     const dayOfMonth = day.getDate()
@@ -123,7 +123,7 @@
     
   }
   
-  days.innerHTML = daysOfRevival.length
+  days.innerHTML = daysInTulsa.length
 
 
 </script>

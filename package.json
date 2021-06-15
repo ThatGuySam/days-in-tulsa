@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "day-of-revival",
+  "name": "days-in-tulsa",
   "description": "A Pen created on CodePen.io. Original URL: [https://codepen.io/ThatGuySam/pen/xxgMyer](https://codepen.io/ThatGuySam/pen/xxgMyer).",
   "main": "index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThatGuySam/day-of-revival.git"
+    "url": "git+https://github.com/ThatGuySam/days-in-tulsa.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ThatGuySam/day-of-revival/issues"
+    "url": "https://github.com/ThatGuySam/days-in-tulsa/issues"
   },
-  "homepage": "https://github.com/ThatGuySam/day-of-revival#readme",
+  "homepage": "https://github.com/ThatGuySam/days-in-tulsa#readme",
   "dependencies": {
     "@babel/core": "7.x.x",
     "@babel/preset-env": "7.x.x",
