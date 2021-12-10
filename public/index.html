@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html 
+  lang="en"
+>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,24 +18,28 @@
   </style>
 
 </head>
-<body class="p-0">
+<body 
+  class="dark:bg-black p-0"
+>
 <!-- partial:index.partial.html -->
-<main class="fixed inset-0 flex flex-col-reverse justify-center items-center h-full w-full overflow-auto">
-  <div class="flex flex-col justify-center items-center py-32 mb-64">
-    <div>Days in Tulsa</div>
-    <div 
-        id="days"
-        class="font-bold pb-32"
-        style="font-size: 8rem;"
-    ></div>
-    <div 
-        class="spacer h-screen"
-    ></div>
-  </div>
+<main class="inset-0 flex flex-col justify-center items-center h-full w-full">
+  
   <table 
     id="calendar"
     class=""
   ></table>
+
+  <div class="flex flex-col justify-center items-center py-32 mb-64">
+    <div>Days in Tulsa</div>
+    <div 
+        id="days"
+        class="font-bold"
+        style="font-size: 8rem;"
+    ></div>
+    <!-- <div 
+        class="spacer h-screen"
+    ></div> -->
+  </div>
 </main>
 
 <script>
@@ -65,23 +71,43 @@
       const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format( day )
 
       headingRow.innerHTML = /* html */`
-        <td colspan="7">
+        <td class="heading-row" colspan="7">
           <h2 class="font-bold text-lg p-2 mt-12">${ monthName }</h2>
         </td>
       `
     
     return headingRow
   }
+
+  function onElementPresent ( selector ) {
+
+    return new Promise( resolve => {
+        function tick(frames) {
+
+            const element = document.querySelector(selector)
+
+            console.log('element', element)
+
+            // We requestAnimationFrame either for 500 frames or until 20 frames with
+            // no change have been observed.
+            if ( element !== null ) {
+                resolve()
+            } else {
+                requestAnimationFrame( tick )
+            }
+        }
+        tick()
+    })
+  }
   
 
   const days = document.querySelector('#days')
   const calendar = document.querySelector('#calendar')
 
-  // Feb 3 https://www.instagram.com/p/CK4Obo3jr9V/
-  // const daysStart = new Date('Febuary 3, 2021 18:30:00')
+  // Dom First Day in Tulsa
   const daysStart = new Date('April 4, 2021')
 
-  // const timeDifference = Date.now() - daysStart.getTime()
+  // const daysStart = new Date('September 4, 2021')
   
   const daysInTulsa = getDays(daysStart, new Date())
   
@@ -102,6 +128,8 @@
   // console.log('cell', week, week.cells.length)
   
   for ( const [ i, day ] of daysInTulsa.entries() ) {
+
+    const dayIsToday = day.toDateString() === new Date().toDateString()
     
     const weekDayIndex = day.getDay()
     const dayOfMonth = day.getDate()
@@ -119,6 +147,10 @@
     }
     
     const dayCell = week.cells[ weekDayIndex ]
+
+    if ( dayIsToday ) {
+      dayCell.classList.add('today')
+    }
     
     
     // const cell = row.insertCell()
@@ -133,6 +165,13 @@
   }
   
   days.innerHTML = daysInTulsa.length
+
+  onElementPresent ( '.today' )
+    .then( () => {
+      console.log('Today rendered. Snapping to bottom.')
+
+      window.scrollTo(0, document.body.scrollHeight)
+    })
 
 
 </script>
