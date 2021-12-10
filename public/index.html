@@ -27,13 +27,17 @@
   <table 
     id="calendar"
     class=""
-  ></table>
+  >
+    <tbody
+      class="divide-y divide-gray-400"
+    ></tbody>
+  </table>
 
-  <div class="flex flex-col justify-center items-center py-32 mb-64">
+  <div class="flex flex-col justify-center items-center py-16 mb-32">
     <div>Days in Tulsa</div>
     <div 
         id="days"
-        class="font-bold"
+        class="font-bold opacity-75"
         style="font-size: 8rem;"
     ></div>
     <!-- <div 
@@ -50,8 +54,26 @@
     }
     return arr
   }
+
+  function addClasses( classes, element ) {
+    const classNames = classes.split(' ')
+
+    for ( const className of classNames ) {
+      if ( className.length === 0 ) continue
+
+      // console.log('className', className, className.length)
+      
+      element.classList.add( className )
+    }
+  }
   
-  function addWeek() {
+  function addWeek( options = {} ) {
+    const {
+      rowClasses = ''
+    } = options
+
+    const defaultRowClasses = 'week divide-x divide-gray-400 py-2'
+
     const row = calendar.insertRow()
     
     for (let i=0; i<7; i++) {
@@ -61,6 +83,9 @@
       
       // console.log(cell)
     }
+
+    addClasses( defaultRowClasses, row )
+    addClasses( rowClasses, row )
     
     return row
   }
@@ -68,13 +93,15 @@
   function addMonthHeading( day ) {
     const headingRow = calendar.insertRow()
 
-      const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format( day )
+    headingRow.classList.add('month-heading', 'border-none')
 
-      headingRow.innerHTML = /* html */`
-        <td class="heading-row" colspan="7">
-          <h2 class="font-bold text-lg p-2 mt-12">${ monthName }</h2>
-        </td>
-      `
+    const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format( day )
+
+    headingRow.innerHTML = /* html */`
+      <td class="heading-row" colspan="7">
+        <h2 class="font-bold text-lg p-2 mt-12">${ monthName }</h2>
+      </td>
+    `
     
     return headingRow
   }
@@ -110,13 +137,15 @@
   // const daysStart = new Date('September 4, 2021')
   
   const daysInTulsa = getDays(daysStart, new Date())
+
+  const totalDays = daysInTulsa.length
   
   // Calculate the no. of days between two dates
   // const daysDifference = timeDifference / (1000 * 3600 * 24)
 
   // console.log('r', daysStart)
   // console.log('d', daysDifference)
-  console.log('d', daysInTulsa.length)
+  console.log('Total days', totalDays)
   
   
   
@@ -129,24 +158,37 @@
   
   for ( const [ i, day ] of daysInTulsa.entries() ) {
 
-    const dayIsToday = day.toDateString() === new Date().toDateString()
+    const dayIsToday = totalDays === i + 1
     
     const weekDayIndex = day.getDay()
     const dayOfMonth = day.getDate()
 
+    const isFirstDayOfMonth = dayOfMonth === 1
+
     // If this is the first day of the month
     // then add a heading row
-    if ( dayOfMonth === 1 ) {
+    if ( isFirstDayOfMonth ) {
       addMonthHeading( day )
     }
     
     // If this day is a new week
     // then add a new week row
-    if ( weekDayIndex === 0 || dayOfMonth === 1 ) {
+    if ( weekDayIndex === 0 || isFirstDayOfMonth ) {
       week = addWeek()
     }
+
+    // Right after we add the first week of a month
+    // remove divider line
+    // so there's not a line between the month heading
+    if ( isFirstDayOfMonth ) {
+      week.classList.add('border-none')
+    }
+
+
     
     const dayCell = week.cells[ weekDayIndex ]
+
+    dayCell.classList.add('day', 'p-0')
 
     if ( dayIsToday ) {
       dayCell.classList.add('today')
@@ -156,14 +198,15 @@
     // const cell = row.insertCell()
     
     dayCell.innerHTML = /* html */`
-      <div class="relative border flex justify-center">
-        <div class="font-medium p-3">${ i+1 }</div>
-        <div class="absolute top-0 right-0 text-xs opacity-25">${ day.getDate() }</div>
+      <div class="relative flex justify-center">
+        <div class="font-medium opacity-75 p-2">${ i+1 }</div>
+        <div class="absolute top-0 right-1 text-xs opacity-50">${ day.getDate() }</div>
       </div>
     `
     
   }
   
+
   days.innerHTML = daysInTulsa.length
 
   onElementPresent ( '.today' )
