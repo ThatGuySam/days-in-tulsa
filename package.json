@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "WEB_APP_PORT=3000 node index.js"
+    "dev": "npx @hyrious/esbuild-serve"
   },
   "repository": {
     "type": "git",
