@@ -121,13 +121,13 @@
   function addMonthHeading( day ) {
     const headingRow = calendar.insertRow()
 
-    headingRow.classList.add('month-heading', 'border-none')
+    addClasses( 'month-heading border-none', headingRow )
 
     const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format( day )
 
     headingRow.innerHTML = /* html */`
       <td class="heading-row" colspan="7">
-        <h2 class="font-bold text-2xl py-4 mt-12">${ monthName }</h2>
+        <h2 class="font-bold text-2xl text-subtle py-4 mt-12">${ monthName }</h2>
       </td>
     `
     
