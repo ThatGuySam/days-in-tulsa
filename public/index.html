@@ -9,17 +9,33 @@
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.16/tailwind.min.css'>
 
   <style>
+
+    :root {
+      --subtle-color: rgba(0, 0, 0, 0.2);
+    }
+
     @media (prefers-color-scheme: dark) {
+      :root {
+        --subtle-color: rgba(255, 255, 255, 0.2);
+      }
       body {
         background-color: #1d1d1d;
         color: #fff;
       }
     }
+
+    .text-subtle {
+      color: var(--subtle-color);
+    }
+
+    .border-subtle {
+      border-color: var(--subtle-color);
+    }
   </style>
 
 </head>
 <body 
-  class="dark:bg-black p-0"
+  class="p-0"
 >
 <!-- partial:index.partial.html -->
 <main class="inset-0 flex flex-col justify-center items-center h-full w-full">
@@ -29,7 +45,7 @@
     class=""
   >
     <tbody
-      class="divide-y divide-gray-400"
+      class="divide-y"
     ></tbody>
   </table>
 
@@ -47,6 +63,8 @@
 </main>
 
 <script>
+
+  const divideStyles = 'divide- border-subtle'
   
   function getDays(start, end) {
     for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
@@ -55,8 +73,10 @@
     return arr
   }
 
-  function addClasses( classes, element ) {
+  function addClasses( classes, elementRef ) {
     const classNames = classes.split(' ')
+
+    const element = typeof elementRef === 'string' ? document.querySelector(elementRef) : elementRef
 
     for ( const className of classNames ) {
       if ( className.length === 0 ) continue
@@ -72,7 +92,7 @@
       rowClasses = ''
     } = options
 
-    const defaultRowClasses = 'week divide-x divide-gray-400 py-2'
+    const defaultRowClasses = `week divide-x ${ divideStyles } py-2`
 
     const row = calendar.insertRow()
     
@@ -80,6 +100,9 @@
       const cell = row.insertCell(i)
       
       cell.innerHTML = ''
+
+      // Add subtle border
+      addClasses( 'border-subtle', cell )
       
       // console.log(cell)
     }
@@ -131,6 +154,8 @@
   const days = document.querySelector('#days')
   const calendar = document.querySelector('#calendar')
 
+  addClasses( divideStyles, '#calendar > tbody' )
+
   // Dom First Day in Tulsa
   const daysStart = new Date('April 4, 2021')
 
@@ -139,6 +164,8 @@
   const daysInTulsa = getDays(daysStart, new Date())
 
   const totalDays = daysInTulsa.length
+
+  
   
   // Calculate the no. of days between two dates
   // const daysDifference = timeDifference / (1000 * 3600 * 24)
@@ -200,7 +227,7 @@
     dayCell.innerHTML = /* html */`
       <div class="relative flex justify-center">
         <div class="font-medium opacity-75 p-2">${ i+1 }</div>
-        <div class="absolute top-0 right-1 text-xs opacity-50">${ day.getDate() }</div>
+        <div class="absolute top-0 right-1 text-xs text-subtle">${ day.getDate() }</div>
       </div>
     `
     
