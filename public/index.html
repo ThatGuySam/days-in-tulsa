@@ -171,9 +171,9 @@
 
   // const daysStart = new Date('September 4, 2021')
   
-  const daysInTulsa = getDays(daysStart, new Date())
+  const daysList = getDays(daysStart, new Date())
 
-  const totalDays = daysInTulsa.length
+  const totalDays = daysList.length
 
   
   
@@ -193,7 +193,7 @@
   
   // console.log('cell', week, week.cells.length)
   
-  for ( const [ i, day ] of daysInTulsa.entries() ) {
+  for ( const [ i, day ] of daysList.entries() ) {
 
     const dayIsToday = totalDays === i + 1
     
@@ -244,7 +244,7 @@
   }
   
 
-  days.innerHTML = daysInTulsa.length
+  days.innerHTML = daysList.length
 
   onElementPresent ( '.today' )
     .then( () => {
